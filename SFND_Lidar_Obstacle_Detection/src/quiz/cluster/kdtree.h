@@ -83,6 +83,17 @@ struct KdTree
 		return ids;
 	}
 	
+	void clusterHelper(int indice, const std::vector<std::vector<float>> points, std::vector<int>& cluster, std::vector<bool>& processed, KdTree* tree, float distanceTol)
+	{
+		processed[indice] = true;
+		std::vector<int> nearest = tree->search(points[indice], distanceTol);
+
+		for(int id: nearest)
+		{
+			if(!processed[id])
+				clusterHelper(id, points, cluster, processed, tree, distanceTol);
+		}
+	}
 
 };
 
