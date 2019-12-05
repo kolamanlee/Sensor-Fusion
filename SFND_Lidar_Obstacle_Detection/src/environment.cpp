@@ -70,19 +70,20 @@ void cityBlock(pcl::visualization::PCLVisualizer::Ptr& viewer,ProcessPointClouds
     //ProcessPointClouds<pcl::PointXYZI> pointProcessor;
     //pcl::PointCloud<pcl::PointXYZI>::Ptr inputCloud = pointProcessor.loadPcd("../src/sensors/data/pcd/data_1/0000000000.pcd");
 
-    inputCloud = pointProcessor.FilterCloud(inputCloud, 0.3, Eigen::Vector4f(-10,-5,-2,1), Eigen::Vector4f(30,8,1,1));
-    std::pair<pcl::PointCloud<pcl::PointXYZI>::Ptr, pcl::PointCloud<pcl::PointXYZI>::Ptr> segmentCloud = pointProcessor.SegmentPlane(inputCloud,25,0.3);
+    inputCloud = pointProcessor.FilterCloud(inputCloud, 0.25, Eigen::Vector4f(-11,-6,-2,1), Eigen::Vector4f(35,6,2,1));
+    std::pair<pcl::PointCloud<pcl::PointXYZI>::Ptr, pcl::PointCloud<pcl::PointXYZI>::Ptr> segmentCloud = pointProcessor.SegmentPlane(inputCloud,20, 0.3);
 
-    //renderPointCloud(viewer, segmentCloud.first, "obstaCloud", Color(1,0,0));
+    renderPointCloud(viewer, segmentCloud.first, "obstaCloud", Color(1,0,0));
     //renderPointCloud(viewer, segmentCloud.second, "planeCloud", Color(0,1,0));
 
-    std::vector<pcl::PointCloud<pcl::PointXYZI>::Ptr> CloudClusters = pointProcessor.Clustering(segmentCloud.first, 0.53, 10, 500);
+    std::vector<pcl::PointCloud<pcl::PointXYZI>::Ptr> CloudClusters = pointProcessor.Clustering(segmentCloud.first, 0.45, 12, 550);
     
     int clusterId = 0;
     std::vector<Color> colors = {Color(1,0,0), Color(1,1,0), Color(0,0,1)};
+
     for(pcl::PointCloud<pcl::PointXYZI>::Ptr cluster:CloudClusters)
     {
-        //std::cout << "cluster size";
+        //std::cout << "[enviornment]cluster size";
         pointProcessor.numPoints(cluster);
         renderPointCloud(viewer, cluster, "obstCloud"+std::to_string(clusterId), colors[clusterId%colors.size()]);
 
@@ -92,8 +93,8 @@ void cityBlock(pcl::visualization::PCLVisualizer::Ptr& viewer,ProcessPointClouds
         ++clusterId;
     }
 
-    renderPointCloud(viewer, inputCloud, "cloud");
-
+    renderPointCloud(viewer, segmentCloud.second, "segmentatedPlane", Color(0,1,0));
+    
 }
 
 void simpleHighway(pcl::visualization::PCLVisualizer::Ptr& viewer)
@@ -141,6 +142,7 @@ void simpleHighway(pcl::visualization::PCLVisualizer::Ptr& viewer)
         //
         clusterId++;
     }
+    
 
 
 }

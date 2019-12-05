@@ -86,6 +86,7 @@ struct KdTree
 	void clusterHelper(int indice, const std::vector<std::vector<float>> points, std::vector<int>& cluster, std::vector<bool>& processed, KdTree* tree, float distanceTol)
 	{
 		processed[indice] = true;
+		cluster.push_back(indice);
 		std::vector<int> nearest = tree->search(points[indice], distanceTol);
 
 		for(int id: nearest)

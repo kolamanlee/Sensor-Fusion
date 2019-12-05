@@ -66,7 +66,7 @@ typename pcl::PointCloud<PointT>::Ptr ProcessPointClouds<PointT>::FilterCloud(ty
 
     auto endTime = std::chrono::steady_clock::now();
     auto elapsedTime = std::chrono::duration_cast<std::chrono::milliseconds>(endTime - startTime);
-    std::cout << "filtering took " << elapsedTime.count() << " milliseconds" << std::endl;
+    //std::cout << "filtering took " << elapsedTime.count() << " milliseconds" << std::endl;
 
     return cloudRegion;
 
@@ -253,7 +253,7 @@ std::pair<typename pcl::PointCloud<PointT>::Ptr, typename pcl::PointCloud<PointT
     //
     auto endTime = std::chrono::steady_clock::now();
     auto elapsedTime = std::chrono::duration_cast<std::chrono::milliseconds>(endTime - startTime);
-    std::cout << "plane segmentation took " << elapsedTime.count() << " milliseconds" << std::endl;
+    //std::cout << "plane segmentation took " << elapsedTime.count() << " milliseconds" << std::endl;
 
     return segResult;
 }
@@ -305,7 +305,6 @@ std::vector<typename pcl::PointCloud<PointT>::Ptr> ProcessPointClouds<PointT>::C
     return clusters;
 }
 */
-
 
 template<typename PointT>
 std::vector<typename pcl::PointCloud<PointT>::Ptr> ProcessPointClouds<PointT>::Clustering(typename pcl::PointCloud<PointT>::Ptr cloud, float clusterTolerance, int minSize, int maxSize)
@@ -367,12 +366,12 @@ std::vector<typename pcl::PointCloud<PointT>::Ptr> ProcessPointClouds<PointT>::C
 
         cloudCluster->width = cloudCluster->points.size();
         cloudCluster->height = 1;
-        //cloudCluster->is_dense = true;
+        cloudCluster->is_dense = true;
 
-    // Adding min and max size boundary conditions to remove unwanted clusters.
+        // Adding min and max size boundary conditions to remove unwanted clusters.
         if((cloudCluster->width >= minSize) && (cloudCluster->height <= maxSize))
         {
-        clusters.push_back(cloudCluster);
+            clusters.push_back(cloudCluster);
         }
 
     }
@@ -380,12 +379,10 @@ std::vector<typename pcl::PointCloud<PointT>::Ptr> ProcessPointClouds<PointT>::C
     //    
     auto endTime = std::chrono::steady_clock::now();
     auto elapsedTime = std::chrono::duration_cast<std::chrono::milliseconds>(endTime - startTime);
-    std::cout << "clustering took " << elapsedTime.count() << " milliseconds and found " << clusters.size() << " clusters" << std::endl;
+    //std::cout << "clustering took " << elapsedTime.count() << " milliseconds and found " << clusters.size() << " clusters" << std::endl;
 
     return clusters;
 }
-
-
 
 
 

@@ -95,7 +95,7 @@ std::vector<std::vector<int>> euclideanCluster(const std::vector<std::vector<flo
 		}
 
 		std::vector<int> cluster;
-		clusterHelper(i, points, cluster, processed, tree, distanceTol);
+		tree->clusterHelper(i, points, cluster, processed, tree, distanceTol);
 		clusters.push_back(cluster);
 
 		i++;
